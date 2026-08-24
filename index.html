@@ -35,18 +35,45 @@
   <p id="status">Belum login.</p>
 
   <script>
-    function handleCredentialResponse(response) {
-      if (response && response.credential) {
-        document.getElementById('status').textContent =
-          'Google login berjaya. ID token diterima.';
+    <script>
+  function handleCredentialResponse(response) {
 
-        console.log('Google credential received.');
-      } else {
-        document.getElementById('status').textContent =
-          'Google login gagal.';
+    if (response && response.credential) {
+
+      document.getElementById('status').textContent =
+        'Google login berjaya. ID token diterima.';
+
+      console.log('Google credential received.');
+
+      // Jika AUTH LAB dibuka dalam Apps Script iframe,
+      // hantar ID token kepada parent.
+      if (window.parent && window.parent !== window) {
+
+        let targetOrigin = '*';
+
+        try {
+          if (document.referrer) {
+            targetOrigin =
+              new URL(document.referrer).origin;
+          }
+        } catch (err) {}
+
+        window.parent.postMessage(
+          {
+            type: 'MYRPH_GOOGLE_ID_TOKEN',
+            idToken: response.credential
+          },
+          targetOrigin
+        );
       }
+
+    } else {
+
+      document.getElementById('status').textContent =
+        'Google login gagal.';
     }
-  </script>
+  }
+</script>
 
 </body>
 </html>
