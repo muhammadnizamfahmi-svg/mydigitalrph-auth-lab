@@ -10,7 +10,6 @@
     defer>
   </script>
 </head>
-
 <body>
 
   <h1>MyDigital RPH Auth Lab</h1>
@@ -34,8 +33,38 @@
 
   <p id="status">Belum login.</p>
 
-  <script>
-    <script>
+  <button onclick="debugSendToOpener()">
+  TEST OPENER BRIDGE
+</button>
+
+ <script>
+
+  function debugSendToOpener() {
+
+    if (
+      window.opener &&
+      !window.opener.closed
+    ) {
+
+      window.opener.postMessage(
+        {
+          type: 'MYRPH_GOOGLE_ID_TOKEN',
+          idToken: 'DEBUG_TOKEN'
+        },
+        '*'
+      );
+
+      document.getElementById('status').textContent =
+        'DEBUG token dihantar ke opener.';
+
+    } else {
+
+      document.getElementById('status').textContent =
+        'DEBUG gagal — opener tiada.';
+    }
+  }
+
+
   function handleCredentialResponse(response) {
 
     if (response && response.credential) {
@@ -48,8 +77,11 @@
         idToken: response.credential
       };
 
-      // AUTH LAB dibuka sebagai popup
-      if (window.opener && !window.opener.closed) {
+      if (
+        window.opener &&
+        !window.opener.closed
+      ) {
+
         window.opener.postMessage(
           message,
           '*'
@@ -65,8 +97,10 @@
         return;
       }
 
-      // Fallback untuk ujian lama dalam iframe
-      if (window.parent && window.parent !== window) {
+      if (
+        window.parent &&
+        window.parent !== window
+      ) {
         window.parent.postMessage(
           message,
           '*'
@@ -79,7 +113,5 @@
         'Google login gagal.';
     }
   }
-</script>
 
-</body>
-</html>
+</script>
