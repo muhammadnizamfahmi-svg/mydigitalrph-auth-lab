@@ -3,9 +3,50 @@
 <head>
   <meta charset="UTF-8">
   <title>MyDigital RPH Auth Lab</title>
+
+  <script
+    src="https://accounts.google.com/gsi/client"
+    async
+    defer>
+  </script>
 </head>
+
 <body>
+
   <h1>MyDigital RPH Auth Lab</h1>
-  <p>Auth Lab Ready</p>
+  <p>Google Identity Services Test</p>
+
+  <div
+    id="g_id_onload"
+    data-client_id="353334375851-vklgkc7oijffa22rhhsl3pu043gmnr9b.apps.googleusercontent.com"
+    data-callback="handleCredentialResponse"
+    data-auto_prompt="false">
+  </div>
+
+  <div
+    class="g_id_signin"
+    data-type="standard"
+    data-size="large"
+    data-theme="outline"
+    data-text="signin_with"
+    data-shape="rectangular">
+  </div>
+
+  <p id="status">Belum login.</p>
+
+  <script>
+    function handleCredentialResponse(response) {
+      if (response && response.credential) {
+        document.getElementById('status').textContent =
+          'Google login berjaya. ID token diterima.';
+
+        console.log('Google credential received.');
+      } else {
+        document.getElementById('status').textContent =
+          'Google login gagal.';
+      }
+    }
+  </script>
+
 </body>
 </html>
