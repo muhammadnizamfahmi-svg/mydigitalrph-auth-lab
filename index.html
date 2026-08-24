@@ -33,37 +33,7 @@
 
   <p id="status">Belum login.</p>
 
-  <button onclick="debugSendToOpener()">
-  TEST OPENER BRIDGE
-</button>
-
  <script>
-
-  function debugSendToOpener() {
-
-    if (
-      window.opener &&
-      !window.opener.closed
-    ) {
-
-      window.opener.postMessage(
-        {
-          type: 'MYRPH_GOOGLE_ID_TOKEN',
-          idToken: 'DEBUG_TOKEN'
-        },
-        '*'
-      );
-
-      document.getElementById('status').textContent =
-        'DEBUG token dihantar ke opener.';
-
-    } else {
-
-      document.getElementById('status').textContent =
-        'DEBUG gagal — opener tiada.';
-    }
-  }
-
 
   function handleCredentialResponse(response) {
 
