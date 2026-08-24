@@ -1,1 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MyDigital RPH Drive Auth</title>
 
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+
+<body>
+
+  <h2>MyDigital RPH — Drive Authorization</h2>
+
+  <p id="status">
+    Bersedia meminta kebenaran Google Drive.
+  </p>
+
+  <button id="driveAuthBtn" onclick="authorizeDrive()">
+    BENARKAN AKSES DRIVE
+  </button>
+
+  <script>
+
+    const CLIENT_ID =
+      '353334375851-vklgkc7oijffa22rhhsl3pu043gmnr9b.apps.googleusercontent.com';
+
+    let codeClient = null;
+
+
+    window.onload = function() {
+
+      codeClient =
+        google.accounts.oauth2.initCodeClient({
+          client_id: CLIENT_ID,
+
+          scope:
+            'https://www.googleapis.com/auth/drive.file',
+
+          ux_mode: 'popup',
+
+          callback: function(response) {
+
+            if (
+              !response ||
+              !response.code
+            ) {
+              document
+                .getElementById('status')
+                .textContent =
+                  'Kebenaran Drive gagal.';
+
+              return;
+            }
+
+            const message = {
+              type: 'MYRPH_DRIVE_AUTH_CODE',
+              code: response.code
+            };
+
+            if (
+              window.opener &&
+              !window.opener.closed
+            ) {
+
+              window.opener.postMessage(
+                message,
+                '*'
+              );
+
+              document
+                .getElementById('status')
+                .textContent =
+                  'Kebenaran Drive berjaya.';
+
+              setTimeout(function() {
+                window.close();
+              }, 800);
+
+            } else {
+
+              document
+                .getElementById('status')
+                .textContent =
+                  'Aplikasi MyDigital RPH tidak dijumpai.';
+            }
+          },
+
+          error_callback: function(error) {
+
+            document
+              .getElementById('status')
+              .textContent =
+                'RALAT DRIVE AUTH: ' +
+                (
+                  error &&
+                  error.type
+                    ? error.type
+                    : 'UNKNOWN'
+                );
+          }
+        });
+    };
+
+
+    function authorizeDrive() {
+
+      if (!codeClient) {
+
+        document
+          .getElementById('status')
+          .textContent =
+            'Google Authorization belum bersedia. Cuba lagi.';
+
+        return;
+      }
+
+      document
+        .getElementById('status')
+        .textContent =
+          'Membuka kebenaran Google Drive...';
+
+      codeClient.requestCode();
+    }
+
+  </script>
+
+</body>
+</html>
