@@ -43,27 +43,33 @@
       document.getElementById('status').textContent =
         'Google login berjaya. ID token diterima.';
 
-      console.log('Google credential received.');
+      const message = {
+        type: 'MYRPH_GOOGLE_ID_TOKEN',
+        idToken: response.credential
+      };
 
-      // Jika AUTH LAB dibuka dalam Apps Script iframe,
-      // hantar ID token kepada parent.
+      // AUTH LAB dibuka sebagai popup
+      if (window.opener && !window.opener.closed) {
+        window.opener.postMessage(
+          message,
+          '*'
+        );
+
+        document.getElementById('status').textContent =
+          'Token dihantar ke MyDigital RPH.';
+
+        setTimeout(function() {
+          window.close();
+        }, 1000);
+
+        return;
+      }
+
+      // Fallback untuk ujian lama dalam iframe
       if (window.parent && window.parent !== window) {
-
-        let targetOrigin = '*';
-
-        try {
-          if (document.referrer) {
-            targetOrigin =
-              new URL(document.referrer).origin;
-          }
-        } catch (err) {}
-
         window.parent.postMessage(
-          {
-            type: 'MYRPH_GOOGLE_ID_TOKEN',
-            idToken: response.credential
-          },
-          targetOrigin
+          message,
+          '*'
         );
       }
 
