@@ -1,87 +1,377 @@
 <!DOCTYPE html>
-<html>
+<html lang="ms">
 <head>
   <meta charset="UTF-8">
-  <title>MyDigital RPH Auth Lab</title>
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1"
+  >
+
+  <title>Log Masuk | MyDigital RPH</title>
 
   <script
     src="https://accounts.google.com/gsi/client"
     async
     defer>
   </script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+
+      font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      padding: 24px;
+
+      background:
+        linear-gradient(
+          135deg,
+          #eef4ff 0%,
+          #f8fafc 50%,
+          #eef8f5 100%
+        );
+
+      color: #202124;
+    }
+
+    .auth-card {
+      width: 100%;
+      max-width: 420px;
+
+      background: #ffffff;
+
+      border-radius: 24px;
+
+      padding:
+        38px 30px 30px;
+
+      text-align: center;
+
+      box-shadow:
+        0 18px 55px
+        rgba(32, 33, 36, 0.12);
+
+      border:
+        1px solid
+        rgba(0, 0, 0, 0.05);
+    }
+
+    .logo {
+      width: 72px;
+      height: 72px;
+
+      margin:
+        0 auto 20px;
+
+      border-radius: 20px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      background:
+        linear-gradient(
+          135deg,
+          #1a73e8,
+          #0f766e
+        );
+
+      color: #ffffff;
+
+      font-size: 34px;
+      font-weight: 800;
+
+      box-shadow:
+        0 10px 24px
+        rgba(26, 115, 232, 0.22);
+    }
+
+    h1 {
+      margin: 0;
+
+      font-size: 27px;
+      line-height: 1.25;
+
+      color: #1f2937;
+    }
+
+    .subtitle {
+      margin:
+        10px 0 26px;
+
+      color: #6b7280;
+
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .google-wrap {
+      min-height: 46px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      margin-top: 6px;
+    }
+
+    .status {
+      min-height: 48px;
+
+      margin-top: 20px;
+
+      padding:
+        12px 14px;
+
+      border-radius: 12px;
+
+      background: #f8fafd;
+
+      color: #5f6368;
+
+      font-size: 13px;
+      line-height: 1.5;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .status.loading {
+      background: #e8f0fe;
+      color: #185abc;
+    }
+
+    .status.success {
+      background: #e6f4ea;
+      color: #137333;
+    }
+
+    .status.error {
+      background: #fce8e6;
+      color: #b3261e;
+    }
+
+    .security-note {
+      margin-top: 22px;
+
+      color: #9aa0a6;
+
+      font-size: 11px;
+      line-height: 1.5;
+    }
+
+    .footer {
+      margin-top: 18px;
+
+      color: #9aa0a6;
+
+      font-size: 11px;
+    }
+
+    @media (max-width: 480px) {
+      body {
+        padding: 16px;
+      }
+
+      .auth-card {
+        padding:
+          32px 22px 26px;
+
+        border-radius: 20px;
+      }
+
+      h1 {
+        font-size: 24px;
+      }
+    }
+  </style>
 </head>
+
 <body>
 
-  <h1>MyDigital RPH Auth Lab</h1>
-  <p>Google Identity Services Test</p>
+  <main class="auth-card">
 
-  <div
-    id="g_id_onload"
-    data-client_id="353334375851-vklgkc7oijffa22rhhsl3pu043gmnr9b.apps.googleusercontent.com"
-    data-callback="handleCredentialResponse"
-    data-auto_prompt="false">
-  </div>
+    <div class="logo">
+      R
+    </div>
 
-  <div
-    class="g_id_signin"
-    data-type="standard"
-    data-size="large"
-    data-theme="outline"
-    data-text="signin_with"
-    data-shape="rectangular">
-  </div>
+    <h1>
+      MyDigital RPH
+    </h1>
 
-  <p id="status">Belum login.</p>
+    <p class="subtitle">
+      Log masuk menggunakan akaun Google
+      untuk meneruskan ke MyDigital RPH.
+    </p>
 
- <script>
+    <div
+      id="g_id_onload"
 
-  function handleCredentialResponse(response) {
+      data-client_id="353334375851-vklgkc7oijffa22rhhsl3pu043gmnr9b.apps.googleusercontent.com"
 
-    if (response && response.credential) {
+      data-callback="handleCredentialResponse"
 
-      document.getElementById('status').textContent =
-        'Google login berjaya. ID token diterima.';
+      data-auto_prompt="false">
+    </div>
 
-      const message = {
-        type: 'MYRPH_GOOGLE_ID_TOKEN',
-        idToken: response.credential
-      };
+    <div class="google-wrap">
 
-      if (
-        window.opener &&
-        !window.opener.closed
-      ) {
+      <div
+        class="g_id_signin"
 
-        window.opener.postMessage(
-          message,
-          '*'
+        data-type="standard"
+
+        data-size="large"
+
+        data-theme="outline"
+
+        data-text="signin_with"
+
+        data-shape="rectangular"
+
+        data-logo_alignment="left">
+      </div>
+
+    </div>
+
+    <div
+      id="status"
+      class="status"
+    >
+      Sila pilih akaun Google untuk log masuk.
+    </div>
+
+    <div class="security-note">
+      🔒 Identiti anda disahkan melalui Google.
+      MyDigital RPH tidak menerima kata laluan Google anda.
+    </div>
+
+    <div class="footer">
+      MyDigital RPH · 2026
+    </div>
+
+  </main>
+
+  <script>
+
+    function setStatus(
+      message,
+      type
+    ) {
+
+      const status =
+        document.getElementById(
+          'status'
         );
 
-        document.getElementById('status').textContent =
-          'Token dihantar ke MyDigital RPH.';
+      status.textContent =
+        message || '';
 
-        setTimeout(function() {
-          window.close();
-        }, 1000);
+      status.className =
+        'status';
 
-        return;
-      }
-
-      if (
-        window.parent &&
-        window.parent !== window
-      ) {
-        window.parent.postMessage(
-          message,
-          '*'
+      if (type) {
+        status.classList.add(
+          type
         );
       }
-
-    } else {
-
-      document.getElementById('status').textContent =
-        'Google login gagal.';
     }
-  }
 
-</script>
+
+    function handleCredentialResponse(
+      response
+    ) {
+
+      if (
+        response &&
+        response.credential
+      ) {
+
+        setStatus(
+          'Akaun Google diterima. Sedang kembali ke MyDigital RPH...',
+          'loading'
+        );
+
+        const message = {
+          type:
+            'MYRPH_GOOGLE_ID_TOKEN',
+
+          idToken:
+            response.credential
+        };
+
+        if (
+          window.opener &&
+          !window.opener.closed
+        ) {
+
+          window.opener.postMessage(
+            message,
+            '*'
+          );
+
+          setStatus(
+            'Log masuk berjaya. Tetingkap ini akan ditutup...',
+            'success'
+          );
+
+          setTimeout(
+            function() {
+              window.close();
+            },
+            700
+          );
+
+          return;
+        }
+
+        if (
+          window.parent &&
+          window.parent !== window
+        ) {
+
+          window.parent.postMessage(
+            message,
+            '*'
+          );
+
+          setStatus(
+            'Log masuk berjaya.',
+            'success'
+          );
+
+          return;
+        }
+
+        setStatus(
+          'MyDigital RPH tidak dapat dikesan. Sila tutup tetingkap ini dan cuba semula.',
+          'error'
+        );
+
+      } else {
+
+        setStatus(
+          'Log masuk Google tidak berjaya. Sila cuba semula.',
+          'error'
+        );
+      }
+    }
+
+  </script>
+
+</body>
+</html>
